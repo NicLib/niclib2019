@@ -1,6 +1,4 @@
-const dayjs = require('dayjs');
-var isBetween = require('dayjs/plugin/isBetween')
-dayjs.extend(isBetween)
+dayjs.extend(window.dayjs_plugin_isBetween)
 
 var exceptions = {
   "holidays": {
@@ -16,25 +14,30 @@ var exceptions = {
   },
   "fallSemester": {
       "begin": dayjs('08/31/2020'),
-      "midFallBreakBegin": dayjs('10/07/2020'),
-      "midFallBreakEnd": dayjs('10/12/2021'),
-      "homecoming": dayjs('10/17/2020'),
-      "thanksgivingBreakBegin": dayjs('11/24/2020'),
-      "thanksgivingBreakEnd": dayjs('12/01/2020'),
-      "end": dayjs('12/19/2020')
+      "end": dayjs('12/19/2020'),
+      "exceptions": {
+        "midFallBreakBegin": dayjs('10/07/2020'),
+        "midFallBreakEnd": dayjs('10/12/2021'),
+        "homecoming": dayjs('10/17/2020'),
+        "thanksgivingBreakBegin": dayjs('11/24/2020'),
+        "thanksgivingBreakEnd": dayjs('12/01/2020'),
+      }
   },
   "springSemester": {
       "begin": dayjs('01/13/2021'),
-      "februaryException": dayjs('02/17/2021'),
-      "marchFirstExceptionBegin": dayjs('03/04/2021'),
-      "marchFirstExceptionEnd": dayjs('03/08/2021'),
-      "marchSecondExceptionBegin": dayjs('03/13/2021'),
-      "marchSecondExceptionEnd": dayjs('03/17/2021'),
-      "end": dayjs('05/08/2021')
+      "end": dayjs('05/08/2021'),
+      "exeptions": {
+        "februaryException": dayjs('02/17/2021'),
+        "marchFirstExceptionBegin": dayjs('03/04/2021'),
+        "marchFirstExceptionEnd": dayjs('03/08/2021'),
+        "marchSecondExceptionBegin": dayjs('03/13/2021'),
+        "marchSecondExceptionEnd": dayjs('03/17/2021'),
+      }
   }
 }
 
 function displayHours(date){
+  date = dayjs(date);
   if(dayIsHoliday(date)){
       return "Holiday!";
   }
@@ -47,7 +50,9 @@ function displayHours(date){
 function dayIsHoliday(date){
   var holidays = exceptions["holidays"];
   for(var holiday in holidays){
-      console.log(holidays[holiday]);
+      if(date == holiday){
+        return true
+      }
   }
 }
 
